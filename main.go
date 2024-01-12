@@ -14,8 +14,8 @@ func main() {
 		log.Fatalf("Failed to open image: %v", err)
 	}
 
-	imageWidth := src.Bounds().Size().X
-	imageHeight := src.Bounds().Size().Y
+	imageWidth := src.Bounds().Dx()
+	imageHeight := src.Bounds().Dy()
 
 	fmt.Printf("Image width is: %v\nImage height is %v\n", imageWidth, imageHeight)
 }
