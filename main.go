@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"log"
 
@@ -13,7 +14,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to open image: %v", err)
 	}
-	pixelArray := getPixelArray(src)
+	arr := getPixelArray(src)
+	fmt.Println(arr[422][655])
 
 }
 
@@ -31,12 +33,21 @@ func getImageHeightAndWidth(im image.Image) (int, int) {
 }
 
 // this is the function that will be behind
-func getPixelArray(img image.Image) [][]uint8 {
+func getPixelArray(img image.Image) [][][]uint8 {
 	width, height := getImageHeightAndWidth(img)
-	result := make([][]uint8)
-	for i := img.Bounds().Min.X; i < width; i++ {
-		for j := img.Bounds().Min.Y; j < height; j++ {
+	result := [][][]uint8{}
 
+	// start from top left corner and go to the right
+	for j := img.Bounds().Min.Y; j < height; j++ {
+		// we want to have some sort of a row vector?
+		row := [][]uint8{}
+		for i := img.Bounds().Min.X; i < width; i++ {
+			// get the correct red, green, and blue color for each pixel
+			r, g, b := rgbaToPixel(img.At(i, j).RGBA())
+			tup := []uint8{r, g, b}
+			row = append(row, tup)
 		}
+		result = append(result, row)
 	}
+	return result
 }
