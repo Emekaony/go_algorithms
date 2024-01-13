@@ -14,9 +14,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to open image: %v", err)
 	}
-	arr := getPixelArray(src)
-	fmt.Println(arr[422][655])
-
+	arr := getPixelMatrix(src)
+	brightnessMatrix := getBrighnessMatrix(arr)
+	fmt.Println(arr[0][0])
+	fmt.Println(brightnessMatrix[0][0])
 }
 
 // converts RGBA from uint32 to 8-bit pixel value
@@ -33,7 +34,7 @@ func getImageHeightAndWidth(im image.Image) (int, int) {
 }
 
 // this is the function that will be behind
-func getPixelArray(img image.Image) [][][]uint8 {
+func getPixelMatrix(img image.Image) [][][]uint8 {
 	width, height := getImageHeightAndWidth(img)
 	result := [][][]uint8{}
 
@@ -48,6 +49,22 @@ func getPixelArray(img image.Image) [][][]uint8 {
 			row = append(row, tup)
 		}
 		result = append(result, row)
+	}
+	return result
+}
+
+// see how we can pass arrays as references instead of by value
+func getBrighnessMatrix(pixelMatrix [][][]uint8) [][][]uint8 {
+	result := pixelMatrix[:] // make a copy of the pixelMatrix
+
+	for i := 0; i < len(result); i++ {
+		for j := 0; j < len(result[i]); j++ {
+			a, b, c := result[i][j][0], result[i][j][1], result[i][j][2]
+			// convert to 32 bit for temporary math
+			avg := (uint32(a) + uint32(b) + uint32(c)) / uint32(3)
+			// convert back to 8 bit
+			result[i][j] = []uint8{uint8(avg)}
+		}
 	}
 	return result
 }
