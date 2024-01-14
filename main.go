@@ -13,10 +13,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to open image: %v", err)
 	}
+	// first task: get the pixel matrix
 	arr := getPixelMatrix(src)
 	dummyArr := make([][][]uint8, len(arr)) // gotta make a copy so the main one is not altered!
 	copy(dummyArr, arr)
-	// brightnessMatrix := getBrighnessMatrix(dummyArr)
+	// second task: get the brightness matrix
+	// intensityMatrix := getIntensityMatrix(dummyArr)
 }
 
 // converts RGBA from uint32 to 8-bit pixel value
@@ -53,15 +55,27 @@ func getPixelMatrix(img image.Image) [][][]uint8 {
 }
 
 // see how we can pass arrays as references instead of by value
-func getBrighnessMatrix(pixelMatrix [][][]uint8) [][][]uint8 {
-
+func getIntensityMatrix(pixelMatrix [][][]uint8, algoName string) [][][]uint8 {
+	intensityMatrix := make([][][]uint8, len(pixelMatrix))
+	var intensity uint32
 	for i := 0; i < len(pixelMatrix); i++ {
 		for j := 0; j < len(pixelMatrix[i]); j++ {
 			a, b, c := pixelMatrix[i][j][0], pixelMatrix[i][j][1], pixelMatrix[i][j][2]
 			// convert to 32 bit for temporary math
-			avg := (uint32(a) + uint32(b) + uint32(c)) / uint32(3)
+			switch algoName {
+			case "average":
+				intensity = (uint32(a) + uint32(b) + uint32(c)) / uint32(3)
+			case "max_min":
+				intensity = max(uint32(a), uint32(b), uint32(c)) + min(uint32(a), uint32(b), uint32(c))
+			case "luminosity":
+				temp := 0.21*float32(a) + 0.72*float32(b) + 0.72*float32(c)
+				intensity = uint32(temp)
+			default:
+				panic("unknown algorithm name!")
+			}
+
 			// convert back to 8 bit
-			pixelMatrix[i][j] = []uint8{uint8(avg)}
+			intensityMatrix[i][j] = []uint8{uint8(intensity)}
 		}
 	}
 	return pixelMatrix
