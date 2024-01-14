@@ -16,8 +16,7 @@ func main() {
 	}
 	// first task: get the pixel matrix
 	pixelMatrix := image_proc.GetPixelMatrix(src)
-	dummyArr := make([][][]uint8, len(pixelMatrix)) // gotta make a copy so the main one is not altered!
-	copy(dummyArr, pixelMatrix)
-	intensityMatrix := image_proc.GetIntensityMatrix(dummyArr, image_proc.MAX_MIN)
-	fmt.Println(intensityMatrix[0])
+	intensityMatrix := image_proc.GetIntensityMatrix(pixelMatrix, image_proc.MAX_MIN)
+	fmt.Println(intensityMatrix[0][0])
+	fmt.Println(pixelMatrix[0][0])
 }
