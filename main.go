@@ -8,7 +8,7 @@ import (
 	"github.com/disintegration/imaging"
 )
 
-// this will help for better readability
+// prevent passing raw strings into intensity function. This acts as an enum
 type Intensity string
 
 const (
@@ -40,11 +40,12 @@ func rgbaToPixel(r, g, b, _ uint32) (uint8, uint8, uint8) {
 	return red, green, blue
 }
 
+// helper function to return the height and width of an image
 func getImageHeightAndWidth(im image.Image) (int, int) {
 	return im.Bounds().Dx(), im.Bounds().Dy()
 }
 
-// this is the function that will be behind
+// returns thr (r, g, b) value for each pixel in the image
 func getPixelMatrix(img image.Image) [][][]uint8 {
 	width, height := getImageHeightAndWidth(img)
 	result := [][][]uint8{}
@@ -64,7 +65,7 @@ func getPixelMatrix(img image.Image) [][][]uint8 {
 	return result
 }
 
-// see how we can pass arrays as references instead of by value
+// maps (r, g, b) pixel values into a singular (i) intensity value depending on the algorithm specified by algoName
 func getIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][][]uint8 {
 	intensityMatrix := [][][]uint8{}
 	var intensity uint32
