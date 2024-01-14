@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"log"
 
@@ -26,7 +27,8 @@ func main() {
 	arr := getPixelMatrix(src)
 	dummyArr := make([][][]uint8, len(arr)) // gotta make a copy so the main one is not altered!
 	copy(dummyArr, arr)
-	intensityMatrix := getIntensityMatrix(dummyArr, AVERAGE)
+	intensityMatrix := getIntensityMatrix(dummyArr, MAX_MIN)
+	fmt.Println(intensityMatrix[0])
 }
 
 // converts RGBA from uint32 to 8-bit pixel value
@@ -64,9 +66,10 @@ func getPixelMatrix(img image.Image) [][][]uint8 {
 
 // see how we can pass arrays as references instead of by value
 func getIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][][]uint8 {
-	intensityMatrix := make([][][]uint8, len(pixelMatrix))
+	intensityMatrix := [][][]uint8{}
 	var intensity uint32
 	for i := 0; i < len(pixelMatrix); i++ {
+		row := [][]uint8{}
 		for j := 0; j < len(pixelMatrix[i]); j++ {
 			a, b, c := pixelMatrix[i][j][0], pixelMatrix[i][j][1], pixelMatrix[i][j][2]
 			// convert to 32 bit for temporary math
@@ -74,7 +77,7 @@ func getIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][][]uint8
 			case "average":
 				intensity = (uint32(a) + uint32(b) + uint32(c)) / uint32(3)
 			case "max_min":
-				intensity = max(uint32(a), uint32(b), uint32(c)) + min(uint32(a), uint32(b), uint32(c))
+				intensity = (max(uint32(a), uint32(b), uint32(c)) + min(uint32(a), uint32(b), uint32(c))) / 2
 			case "luminosity":
 				temp := 0.21*float32(a) + 0.72*float32(b) + 0.72*float32(c)
 				intensity = uint32(temp)
@@ -83,8 +86,9 @@ func getIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][][]uint8
 			}
 
 			// convert back to 8 bit
-			intensityMatrix[i][j] = []uint8{uint8(intensity)}
+			row = append(row, []uint8{uint8(intensity)})
 		}
+		intensityMatrix = append(intensityMatrix, row)
 	}
-	return pixelMatrix
+	return intensityMatrix
 }
