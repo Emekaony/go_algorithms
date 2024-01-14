@@ -7,6 +7,15 @@ import (
 	"github.com/disintegration/imaging"
 )
 
+// this will help for better readability
+type Intensity string
+
+const (
+	AVERAGE    Intensity = "average"
+	MAX_MIN    Intensity = "max_min"
+	LUMINOSITY Intensity = "luminosity"
+)
+
 func main() {
 	// load and open the image
 	src, err := imaging.Open("assets/images/ascii-pineapple.jpg")
@@ -17,8 +26,7 @@ func main() {
 	arr := getPixelMatrix(src)
 	dummyArr := make([][][]uint8, len(arr)) // gotta make a copy so the main one is not altered!
 	copy(dummyArr, arr)
-	// second task: get the brightness matrix
-	// intensityMatrix := getIntensityMatrix(dummyArr)
+	intensityMatrix := getIntensityMatrix(dummyArr, AVERAGE)
 }
 
 // converts RGBA from uint32 to 8-bit pixel value
@@ -55,7 +63,7 @@ func getPixelMatrix(img image.Image) [][][]uint8 {
 }
 
 // see how we can pass arrays as references instead of by value
-func getIntensityMatrix(pixelMatrix [][][]uint8, algoName string) [][][]uint8 {
+func getIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][][]uint8 {
 	intensityMatrix := make([][][]uint8, len(pixelMatrix))
 	var intensity uint32
 	for i := 0; i < len(pixelMatrix); i++ {
