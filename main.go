@@ -18,5 +18,5 @@ func main() {
 	pixelMatrix := image_proc.GetPixelMatrix(src)
 	intensityMatrix := image_proc.GetIntensityMatrix(pixelMatrix, image_proc.MAX_MIN)
 	fmt.Println(intensityMatrix[0][0])
-	fmt.Println(pixelMatrix[0][0])
+	// fmt.Println(pixelMatrix[0][0])
 }
