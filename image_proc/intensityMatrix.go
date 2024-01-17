@@ -11,6 +11,7 @@ const (
 
 // maps (r, g, b) pixel values into a singular (i) intensity value depending on the algorithm specified by algoName
 func GetIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][][]uint8 {
+	// should intensity matrix be float64???
 	intensityMatrix := [][][]uint8{}
 	var intensity uint32
 	for i := 0; i < len(pixelMatrix); i++ {
