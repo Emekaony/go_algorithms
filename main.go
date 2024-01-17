@@ -2,7 +2,6 @@ package main
 
 import (
 	"ascii_art/image_proc"
-	"fmt"
 	"log"
 
 	"github.com/disintegration/imaging"
@@ -10,13 +9,15 @@ import (
 
 func main() {
 	// load and open the image
-	src, err := imaging.Open("assets/images/ascii-pineapple.jpg") // this was src
+	src, err := imaging.Open("assets/images/ascii_apple.jpg") // this was src
 	if err != nil {
 		log.Fatalf("Failed to open image: %v", err)
 	}
+	resized := imaging.Resize(src, 200, 0, imaging.BSpline)
 	// first task: get the pixel matrix
-	pixelMatrix := image_proc.GetPixelMatrix(src)
-	intensityMatrix := image_proc.GetIntensityMatrix(pixelMatrix, image_proc.AVERAGE)
-	fmt.Println(intensityMatrix[0][0])
-	fmt.Println(pixelMatrix[0][0])
+	pixelMatrix := image_proc.GetPixelMatrix(resized) // see if resized works instead of src
+	intensityMatrix := image_proc.GetIntensityMatrix(pixelMatrix, image_proc.LUMINOSITY)
+	normalixedMatrix := image_proc.NormalizeIntensityMatrix(intensityMatrix)
+	asciiMatrix := image_proc.ConvertToAscii(normalixedMatrix)
+	image_proc.PrintAsciiMatrix(asciiMatrix) // moment of truth
 }
