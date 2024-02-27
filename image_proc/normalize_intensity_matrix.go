@@ -22,6 +22,7 @@ func NormalizeIntensityMatrix(intensityMatrix [][]float64) [][]float64 {
 	return normalizedIntensityMatrix
 }
 
+// yo
 func findMaxPixel(intensityMatrix [][]float64) float64 {
 	maxPixel := intensityMatrix[0][0]
 

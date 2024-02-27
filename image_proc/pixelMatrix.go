@@ -14,8 +14,8 @@ func GetPixelMatrix(img image.Image) [][][]uint8 {
 		for i := img.Bounds().Min.X; i < width; i++ {
 			// get the correct red, green, and blue color for each pixel
 			r, g, b := RgbaToPixel(img.At(i, j).RGBA())
-			tup := []uint8{r, g, b}
-			row = append(row, tup)
+			currRow := []uint8{r, g, b}
+			row = append(row, currRow)
 		}
 		result = append(result, row)
 	}

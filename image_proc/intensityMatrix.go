@@ -3,6 +3,7 @@ package image_proc
 // prevent passing raw strings into intensity function. This acts as an enum
 type Intensity string
 
+// enum for different intensity algorithms.
 const (
 	AVERAGE    Intensity = "average"
 	MAX_MIN    Intensity = "max_min"
@@ -18,7 +19,6 @@ func GetIntensityMatrix(pixelMatrix [][][]uint8, algoName Intensity) [][]float64
 		row := []float64{}
 		for j := 0; j < len(pixelMatrix[i]); j++ {
 			a, b, c := pixelMatrix[i][j][0], pixelMatrix[i][j][1], pixelMatrix[i][j][2]
-			// convert to 32 bit for temporary math
 			switch algoName {
 			case "average":
 				intensity = (float64(a) + float64(b) + float64(c)) / float64(3)
