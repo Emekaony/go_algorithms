@@ -17,6 +17,7 @@ func NormalizeIntensityMatrix(intensityMatrix [][]float64) [][]float64 {
 		}
 		normalizedIntensityMatrix = append(normalizedIntensityMatrix, rescaledRow)
 	}
+	// fmt.Println(normalizedIntensityMatrix)
 
 	return normalizedIntensityMatrix
 }
