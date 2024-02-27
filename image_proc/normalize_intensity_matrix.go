@@ -5,47 +5,42 @@ const MAX_PIXEL_VALUE float64 = 255.0
 func NormalizeIntensityMatrix(intensityMatrix [][]float64) [][]float64 {
 	var normalizedIntensityMatrix [][]float64
 
-	// Find max and min pixel values
-	maxPixel := findMaxPixel(intensityMatrix)
-	minPixel := findMinPixel(intensityMatrix)
-
 	// Normalize each pixel value
 	for _, row := range intensityMatrix {
 		var rescaledRow []float64
+		// minPixel := findMinPixel(row)
+		// maxPixel := findMaxPixel(row)
+
 		for _, p := range row {
-			r := MAX_PIXEL_VALUE * (p - minPixel) / (maxPixel - minPixel)
+			r := (p / MAX_PIXEL_VALUE)
 			rescaledRow = append(rescaledRow, r)
 		}
 		normalizedIntensityMatrix = append(normalizedIntensityMatrix, rescaledRow)
 	}
+	// fmt.Println(normalizedIntensityMatrix)
 
 	return normalizedIntensityMatrix
 }
 
-func findMaxPixel(intensityMatrix [][]float64) float64 {
-	maxPixel := intensityMatrix[0][0]
+// // returns the max value from a vector
+// func findMaxPixel(intensityMatrix []float64) float64 {
+// 	max := intensityMatrix[0]
+// 	for _, item := range intensityMatrix {
+// 		if item > max {
+// 			max = item
+// 		}
+// 	}
+// 	return max
+// }
 
-	for i := 0; i < len(intensityMatrix); i++ {
-		for j := 1; j < len(intensityMatrix[i]); j++ {
-			if intensityMatrix[i][j] > maxPixel {
-				maxPixel = intensityMatrix[i][j]
-			}
-		}
-	}
+// // returns the min value from a vector
+// func findMinPixel(intensityMatrix []float64) float64 {
+// 	min := intensityMatrix[0]
+// 	for _, item := range intensityMatrix {
+// 		if item < min {
+// 			min = item
+// 		}
+// 	}
 
-	return maxPixel
-}
-
-func findMinPixel(intensityMatrix [][]float64) float64 {
-	minPixel := intensityMatrix[0][0]
-
-	for i := 0; i < len(intensityMatrix); i++ {
-		for j := 1; j < len(intensityMatrix[i]); j++ {
-			if intensityMatrix[i][j] < minPixel {
-				minPixel = intensityMatrix[i][j]
-			}
-		}
-	}
-
-	return minPixel
-}
+// 	return min
+// }
