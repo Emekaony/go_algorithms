@@ -22,7 +22,7 @@
 ## Demo
 
 Source Image: 
-![Ascii_Pineapple](https://github.com/Emekaony/Ascii_Art/blob/main/assets/images/ascii-pineapple.jpg)
+![Ascii_Apple](https://github.com/Emekaony/Ascii_Art/blob/main/assets/images/ascii_apple.jpg)
 
 Rendered Image:
 
