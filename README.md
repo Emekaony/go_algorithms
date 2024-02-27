@@ -10,9 +10,9 @@
 
 1. We get a source image and convert it into a 3-Dimentional array filled with the corresponding (R, G, B) values for every pixel in the image.
 
-2. The next step invlved reducing the 3D matriix into an intensity matrix by mapping each set of r, g, b values into a brightness number by taking the average of all three.
+2. The next step invlved reducing the 3D matrix into an intensity matrix by mapping each set of r, g, b values into a brightness number by taking the average of all three.
 
-3. To wrap things up, we map each brightness number into its corresponding ASCII character using a linrar normalization algorithm. Since pixel values range from 0 -> 255, and we have a small set of ascii characters, we had to use normalization to evenly distrubute brightness numbers from low to high so every number had a corresponding ascii character to it.
+3. To wrap things up, we map each brightness number into its corresponding ASCII character using a linear normalization algorithm. Since pixel values range from 0 -> 255, and we have a small set of ascii characters, we had to use normalization to evenly distrubute brightness numbers from low to high so every number had a corresponding ascii character to it.
 
 4. Last step involved printing the image to the console. For better output, we had to print each ascii character twice and also resize the terminal till the result looked good.
 
@@ -41,6 +41,6 @@ Rendered Image:
 ## Lessons Learned
 
 1. I learned a lot about multi-dimensional image processing.
-2. I got very comfortable with parsing through documentation for useful informatino
+2. I got very comfortable with parsing through documentation for useful information.
 3. I learned to use low level bit manipulation when necessary.
 
