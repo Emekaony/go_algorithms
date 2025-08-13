@@ -1,4 +1,4 @@
-module ascii_art
+module go_algorithms
 
 go 1.21.4
 

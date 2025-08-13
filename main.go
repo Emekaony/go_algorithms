@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ascii_art/image_proc"
+	"go_algorithms/image_proc"
 	"log"
 
 	"github.com/disintegration/imaging"
